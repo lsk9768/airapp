@@ -7,6 +7,8 @@ import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     TextView datetime;
     ProgressBar seoulBar;
@@ -89,49 +91,20 @@ public class MainActivity extends AppCompatActivity {
     class MyThred extends AsyncTask{
         @Override
         protected Object doInBackground(Object[] params){
-            Air air = AirService.getAir();
-            Log.d("air",air.toString());
-            return  air;
+            Map<String, String> map= AirService.getAir();
+            Log.d("air","doInbackground"+map);
+            return  map;
         }
         @Override
         protected  void onPostExecute(Object o){
-            Log.d("air","onPostExecute:"+o.toString());
-            Air air = (Air)o;
-            datetime.setText(air.getDataTime());
-            seoul.setText("서울 :"+air.getSeoul());
-            seoulBar.setProgress(air.getSeoul());
-            busan.setText("부산 :"+air.getBusan());
-            busanBar.setProgress(air.getBusan());
-            daegu.setText("대구 :"+air.getDaegu());
-            daeguBar.setProgress(air.getDaegu());
-            incheon.setText("인천 :"+air.getIncheon());
-            incheonBar.setProgress(air.getIncheon());
-            gwangju.setText("광주 :"+air.getGwangju());
-            gwangjuBar.setProgress(air.getGwangju());
-            daejeon.setText("대전 :"+air.getDaejeon());
-            daejeonBar.setProgress(air.getDaejeon());
-            ulsan.setText("울산 :"+air.getUlsan());
-            ulsanBar.setProgress(air.getUlsan());
-            gyeonggi.setText("경기 :"+air.getGyeonggi());
-            gyeonggiBar.setProgress(air.getGyeonggi());
-            gangwon.setText("강원 :"+air.getGangwon());
-            gangwonBar.setProgress(air.getGangwon());
-            chungbuk.setText("충북 :"+air.getChungbuk());
-            chungbukBar.setProgress(air.getChungbuk());
-            chungnam.setText("충남 :"+air.getChungnam());
-            chungnamBar.setProgress(air.getChungnam());
-            jeonbuk.setText("전북 :"+air.getJeonbuk());
-            jeonbukBar.setProgress(air.getJeonbuk());
-            jeonnam.setText("충북 :"+air.getJeonnam());
-            jeonnamBar.setProgress(air.getJeonnam());
-            gyeongbuk.setText("경북 :"+air.getGyeongbuk());
-            gyeongbukBar.setProgress(air.getGyeongbuk());
-            gyeongnam.setText("경남 :"+air.getGyeongnam());
-            gyeongnamBar.setProgress(air.getGyeongnam());
-            jeju.setText("제주 :"+air.getJeju());
-            jejuBar.setProgress(air.getJeju());
-            sejong.setText("세종 :"+air.getSejong());
-            sejongBar.setProgress(air.getSejong());
+            Log.d("air","onPostExcute"+o.toString());
+            Map<String, String> map = (Map<String, String>)o;
+            StringBuffer sb = new StringBuffer();
+            for(String KeyName : map.keySet()) {
+                sb.append(KeyName + ":" + map.get(KeyName)+"\n");
+            }
+            Log.d("air",sb.toString());
+
 
         }
     }

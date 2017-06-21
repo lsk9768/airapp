@@ -13,16 +13,20 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ksmart-t201 on 2017-06-20.
+ * Modify by jjdev 2017-06-21
  */
 
 public class AirService {
-    public static Air getAir() {
-        Air air = new Air();
+
+    public static Map<String, String> getAir() {
+        Map<String, String>map = new HashMap<>();
         String str = getAirList();
-        // list -> air : xml 파싱
+        // xml String  파싱
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             XmlPullParser parse = factory.newPullParser();
@@ -58,43 +62,8 @@ public class AirService {
                         break;
                     case XmlPullParser.TEXT:
                         if(flag) {
-                            if(local.equals("dataTime")) {
-                                air.setDataTime(parse.getText());
-                            }else if(local.equals("seoul")) {
-                                air.setSeoul(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("busan")){
-                                air.setBusan(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("daegu")){
-                                air.setDaegu(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("incheon")){
-                                air.setIncheon(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("gwangju")){
-                                air.setGwangju(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("daejeon")){
-                                air.setDaejeon(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("ulsan")){
-                                air.setUlsan(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("gyeonggi")){
-                                air.setGyeonggi(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("gangwon")){
-                                air.setGangwon(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("chungbuk")){
-                                air.setChungbuk(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("chungnam")){
-                                air.setChungnam(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("jeonbuk")){
-                                air.setJeonbuk(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("jeonnam")){
-                                air.setJeonnam(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("gyeongbuk")){
-                                air.setGyeongbuk(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("gyeongnam")){
-                                air.setGyeongnam(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("jeju")){
-                                air.setJeju(Integer.parseInt(parse.getText()));
-                            } else if(local.equals("sejong")){
-                                air.setSejong(Integer.parseInt(parse.getText()));
-                            }
+                            map.put(local, parse.getText());
+                            local = "";
                             flag = false;
                         }
                         break;
@@ -108,7 +77,7 @@ public class AirService {
             e.printStackTrace();
         }
 
-        return air;
+        return map;
     }
 
     private static String getAirList() {
