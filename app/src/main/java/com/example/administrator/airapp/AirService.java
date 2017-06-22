@@ -19,7 +19,6 @@ import java.util.Map;
 /**
  * Created by ksmart-t201 on 2017-06-20.
  * Modify by jjdev 2017-06-21
- * 주석이 한글이 들어가나욧
  */
 
 public class AirService {
